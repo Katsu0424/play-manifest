@@ -11,5 +11,4 @@ patches:
   - target:
       kind: Ingress
       name: my-app-ingress
-      namespace: alpha
     path: ingress-patch.yaml
