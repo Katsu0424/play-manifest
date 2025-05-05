@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-app              # ← ここが必須
+  labels:
+    app: my-app             # ← selector と一致させるラベル
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: my-app           # ← Deployment が管理する Pod を識別する条件
+  template:
+    metadata:
+      labels:
+        app: my-app         # ← Pod テンプレートにも同じラベル
+    spec:
+      containers:
+        - name: my-app
+          image: registry:5000/demo:dev
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
