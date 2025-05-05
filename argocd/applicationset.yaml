@@ -8,14 +8,14 @@ spec:
     - list:
         elements:
           - name: dev
-            namespace: dev
             path: overlays/dev
+            namespace: dev
           - name: alpha
-            namespace: alpha
             path: overlays/alpha
+            namespace: alpha
           - name: prod
-            namespace: prod
             path: overlays/prod
+            namespace: prod
   template:
     metadata:
       name: my-app-{{name}}
@@ -24,10 +24,10 @@ spec:
       source:
         repoURL: https://github.com/Katsu0424/play-manifest.git
         targetRevision: main
-        path: {{path}}
+        path: '{{path}}'
       destination:
         server: https://kubernetes.default.svc
-        namespace: {{namespace}}
+        namespace: '{{namespace}}'
       syncPolicy:
         automated:
           prune: true
