@@ -1,18 +1,34 @@
 apiVersion: argoproj.io/v1alpha1
-kind: Application
+kind: ApplicationSet
 metadata:
-  name: my-app-dev
+  name: my-app-multi
   namespace: argocd
 spec:
-  project: default
-  source:
-    repoURL: https://github.com/Katsu0424/play-manifest.git
-    targetRevision: main
-    path: overlays/dev
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: dev
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
+  generators:
+    - list:
+        elements:
+          - name: dev
+            namespace: dev
+            path: overlays/dev
+          - name: alpha
+            namespace: alpha
+            path: overlays/alpha
+          - name: prod
+            namespace: prod
+            path: overlays/prod
+  template:
+    metadata:
+      name: my-app-{{name}}
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/Katsu0424/play-manifest.git
+        targetRevision: main
+        path: {{path}}
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: {{namespace}}
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
